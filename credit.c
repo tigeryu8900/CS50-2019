@@ -64,8 +64,8 @@ int main(void) {
     checksum += tempNumber % 10;
     tempNumber /= 100;
   }
-  if (checksum % 10 != 0) invalid();
+  if (checksum % 10 != 0 || checksum == 40) invalid();
   
   // print type
-  printf("%s", type);
+  printf("%d%s", checksum, type);
 }
