@@ -36,8 +36,8 @@ int main(int argc, string argv[])
     for (int i = 0; i < keywordLength; i++)
     {
         keyArray[i] = islower(keyword[i])
-                      ? (((keyword[i] - 'a') % ('z' - 'a' + 1)) + 'a')
-                      : (((keyword[i] - 'A') % ('Z' - 'A' + 1)) + 'A');
+                      ? ((keyword[i] - 'a') % ('z' - 'a' + 1))
+                      : ((keyword[i] - 'A') % ('Z' - 'A' + 1));
     }
     
     // retrieve plaintext and store in ciphertext
