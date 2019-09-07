@@ -44,15 +44,17 @@ int main(int argc, string argv[])
     string ciphertext = get_string("plaintext:  ");
     
     // encrypt
+    int j = 0;
     for (int i = 0; ciphertext[i] != '\0'; i++)
     {
         if (isalpha(ciphertext[i]))
         {
             ciphertext[i] = islower(ciphertext[i])
-                            ? (((ciphertext[i] - 'a' + keyArray[i % keywordLength])
+                            ? (((ciphertext[i] - 'a' + keyArray[j % keywordLength])
                                 % ('z' - 'a' + 1)) + 'a')
-                            : (((ciphertext[i] - 'A' + keyArray[i % keywordLength])
+                            : (((ciphertext[i] - 'A' + keyArray[j % keywordLength])
                                 % ('Z' - 'A' + 1)) + 'A');
+            j++;
         }
     }
     
