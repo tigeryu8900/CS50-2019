@@ -35,7 +35,7 @@ int main(int argc, string argv[])
     int keyArray[keywordLength];
     for (int i = 0; i < keyWordLength; i++)
     {
-        keyArray[i] = isLower(keyword[i])
+        keyArray[i] = islower(keyword[i])
                       ? (((keyword[i] - 'a') % ('z' - 'a' + 1)) + 'a')
                       : (((keyword[i] - 'A') % ('Z' - 'A' + 1)) + 'A');
     }
@@ -46,7 +46,7 @@ int main(int argc, string argv[])
     // encrypt
     for (int i = 0; ciphertext[i] != '\0'; i++)
     {
-        ciphertext[i] = isLower(ciphertext[i])
+        ciphertext[i] = islower(ciphertext[i])
                         ? (((ciphertext[i] - 'a' + keyArray[i]) % ('z' - 'a' + 1)) + 'a')
                         : (((ciphertext[i] - 'A' + keyArray[i]) % ('Z' - 'A' + 1)) + 'A');
     }
