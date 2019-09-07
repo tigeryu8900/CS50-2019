@@ -46,9 +46,14 @@ int main(int argc, string argv[])
     // encrypt
     for (int i = 0; ciphertext[i] != '\0'; i++)
     {
-        ciphertext[i] = islower(ciphertext[i])
-                        ? (((ciphertext[i] - 'a' + keyArray[i % keywordLength]) % ('z' - 'a' + 1)) + 'a')
-                        : (((ciphertext[i] - 'A' + keyArray[i % keywordLength]) % ('Z' - 'A' + 1)) + 'A');
+        if (isalpha(ciphertext[i]))
+        {
+            ciphertext[i] = islower(ciphertext[i])
+                            ? (((ciphertext[i] - 'a' + keyArray[i % keywordLength])
+                                % ('z' - 'a' + 1)) + 'a')
+                            : (((ciphertext[i] - 'A' + keyArray[i % keywordLength])
+                                % ('Z' - 'A' + 1)) + 'A');
+        }
     }
     
     // display ciphertext
