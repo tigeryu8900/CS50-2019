@@ -33,7 +33,7 @@ int main(int argc, string argv[])
     
     // retrieve key array
     int keyArray[keywordLength];
-    for (int i = 0; i < keyWordLength; i++)
+    for (int i = 0; i < keyWordlength; i++)
     {
         keyArray[i] = islower(keyword[i])
                       ? (((keyword[i] - 'a') % ('z' - 'a' + 1)) + 'a')
