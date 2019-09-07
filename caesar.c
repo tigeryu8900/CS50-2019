@@ -6,7 +6,7 @@
 void badInput()
 {
     printf("Usage: ./caesar key\n");
-    exit(0);
+    exit(1);
 }
 
 int main(int argc, string argv[])
