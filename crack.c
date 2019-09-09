@@ -67,6 +67,7 @@ int main(int argc, string argv[])
     
     // permutate through all possible passwords
     string password = "\0\0\0\0\0"; // use '\0' as filler/sentinel character
+    printf("I'm alive!\n");
     if (!crack(0, password, hash))
     {
         badInput();
