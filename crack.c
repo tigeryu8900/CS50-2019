@@ -24,24 +24,28 @@ void badInput()
 //     return str;
 // }
 
-bool crack(int index, string password, string hash)
+bool crack(int index, char *password, string hash)
 {
     static string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     static int charlen = 52;
     for (int i = 0; i < charlen; i++)
     {
         password[index] = characters[i];
-        if (strcmp(crypt(password, hash), hash))
+        for (int j = 4; j > index; j--)
+        {
+            password[j] = '\0';
+        }
+//         if (strlen(password) == 3)
+//         {
+//             printf("%s\n", password);
+//         }
+        if (strcmp(crypt(password, hash), hash) == 0)
         {
             return true;
         }
         if (index < 4 && crack(index + 1, password, hash))
         {
             return true;
-        }
-        for (int j = 4; j > index; j++)
-        {
-            password[j] = '\0';
         }
     }
     return false;
@@ -66,8 +70,7 @@ int main(int argc, string argv[])
     string hash = argv[1];
     
     // permutate through all possible passwords
-    string password = "\0\0\0\0\0"; // use '\0' as filler/sentinel character
-    printf("I'm alive!\n");
+    char *password = malloc(6);
     if (!crack(0, password, hash))
     {
         badInput();
