@@ -71,6 +71,7 @@ int main(int argc, string argv[])
     
     // permutate through all possible passwords
     char *password = malloc(6);
+//     printf("LOL hash: %s", crypt("LOL", "50cI2vYkF0YU2"));
     if (!crack(0, password, hash))
     {
         badInput();
