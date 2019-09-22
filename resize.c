@@ -73,10 +73,10 @@ int main(int argc, char *argv[])
     // one scanline from inFile.
     RGBTRIPLE *inScanLine = (RGBTRIPLE *)malloc(sizeof(RGBTRIPLE) * oldWidth);
     // 2d array, n scanlines to be written to outfile.
-    RGBTRIPLE **outScanLines = (RGBTRIPLE **)malloc((sizeof(RGBTRIPLE*) + sizeof(RGBTRIPLE) * newWidth) * n);
+    RGBTRIPLE **outScanLines = (RGBTRIPLE **)malloc(sizeof(RGBTRIPLE*) * n);
     for (int i = 0; i < n; ++i) {
         // allocate memory for n scanlines to be written to outfile.
-        outScanLines[i] = (RGBTRIPLE *)(outScanLines + n);
+        outScanLines[i] = (RGBTRIPLE *)malloc(sizeof(RGBTRIPLE) * newWidth);
     }
 
     // filling bytes for padding, 4 bytes max.
@@ -110,6 +110,9 @@ int main(int argc, char *argv[])
 
     // free up allocated memory.
     free(inScanLine);
+    for (int i = 0; i < n; ++i) {
+        free(outScanLines[i]);
+    }
     free(outScanLines);
 
     // close infile
