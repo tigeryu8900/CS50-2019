@@ -3,6 +3,7 @@
 
 typedef unsigned char byte;
 
+// checks whether the block is the first block of an image
 int isStartOfImage(byte *data)
 {
     return data[0] == 0xff && data[1] == 0xd8 && data[2] == 0xff && (data[3] & 0xf0) == 0xe0;
@@ -36,15 +37,17 @@ int main(int argc, char *argv[])
     byte block[512];
     while (1 == fread(block, 512, 1, inptr))
     {
-        printf("fileCount: %d\n", fileCount);
+        // check whether the block is the first block of an image
         if (isStartOfImage(block))
         {
-            char fname[8];
-            sprintf(fname, "%03d.jpg", fileCount++);
+            // close the previous file if outptr is opened
             if (outptr != NULL)
             {
                 fclose(outptr);
             }
+            // open a new image file
+            char fname[8];
+            sprintf(fname, "%03d.jpg", fileCount++);
             outptr = fopen(fname, "w");
         }
         if (outptr != NULL)
@@ -52,6 +55,7 @@ int main(int argc, char *argv[])
             fwrite(block, 512, 1, outptr);
         }
     }
+    // close the last image file if any
     if (outptr != NULL)
     {
         fclose(outptr);
