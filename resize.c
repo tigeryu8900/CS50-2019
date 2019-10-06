@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     }
 
     // filling bytes for padding, 4 bytes max.
-    const char* filling = "\0\0\0\0";
+    const char* filling = "\0x0\0x0\0x0\0x0";
 
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++) {
