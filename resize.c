@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     }
 
     // filling bytes for padding, 4 bytes max.
-    const char* filling = "\0x0\0x0\0x0\0x0";
+    const char* filling = "\0\0\0\0";
 
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++) {
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
         for (int out_i = 0; out_i < n; ++out_i) {
             fwrite(outScanLines[out_i], sizeof(RGBTRIPLE), newbi.biWidth, outptr);
             if (newPadding > 0) {
-                fwrite(&filling, 1, newPadding, outptr);
+                fwrite(filling, 1, newPadding, outptr);
             }
         }
 
