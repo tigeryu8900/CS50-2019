@@ -7,14 +7,14 @@
 #include "bmp.h"
 
 
-void printFileHeader(BITMAPFILEHEADER* bf)
+void printFileHeader(BITMAPFILEHEADER *bf)
 {
     printf("bfType: %x\nbfSize: %x\nbfReserved1: %x\nbfReserved2: %x\nbfOffBits: %x\n",
            bf->bfType, bf->bfSize, bf->bfReserved1, bf->bfReserved2, bf->bfOffBits);
 }
 
 
-void printInfoHeader(BITMAPINFOHEADER* bi)
+void printInfoHeader(BITMAPINFOHEADER *bi)
 {
     printf("biSize: %x\nbiWidth: %x\nbiHeight: %x\nbiPlanes: %x\nbiBitCount: %x\n"
            "biCompression: %x\nbiSizeImage: %x\nbiXPelsPerMeter: %x\nbiYPelsPerMeter: %x\nbiClrUsed: %x\nbiClrImportant: %x\n",
@@ -26,7 +26,8 @@ void printInfoHeader(BITMAPINFOHEADER* bi)
 int main(int argc, char *argv[])
 {
     // ensure proper usage
-    if (argc != 4) {
+    if (argc != 4)
+    {
         fprintf(stderr, "Usage: resize n infile outfile\n");
         return 1;
     }
@@ -38,14 +39,16 @@ int main(int argc, char *argv[])
 
     // open input file
     FILE *inptr = fopen(infile, "r");
-    if (inptr == NULL) {
+    if (inptr == NULL)
+    {
         fprintf(stderr, "Could not open %s.\n", infile);
         return 2;
     }
 
     // open output file
     FILE *outptr = fopen(outfile, "w");
-    if (outptr == NULL) {
+    if (outptr == NULL)
+    {
         fclose(inptr);
         fprintf(stderr, "Could not create %s.\n", outfile);
         return 3;
@@ -61,7 +64,8 @@ int main(int argc, char *argv[])
 
     // ensure infile is (likely) a 24-bit uncompressed BMP 4.0
     if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 ||
-        bi.biBitCount != 24 || bi.biCompression != 0) {
+        bi.biBitCount != 24 || bi.biCompression != 0)
+    {
         fclose(outptr);
         fclose(inptr);
         fprintf(stderr, "Unsupported file format.\n");
@@ -96,33 +100,35 @@ int main(int argc, char *argv[])
     // one scanline from inFile.
     RGBTRIPLE *inScanLine = (RGBTRIPLE *)malloc(sizeof(RGBTRIPLE) * bi.biWidth);
     // 2d array, n scanlines to be written to outfile.
-    RGBTRIPLE **outScanLines = (RGBTRIPLE **)malloc((sizeof(RGBTRIPLE*) + sizeof(RGBTRIPLE) * newbi.biWidth) * n);
-    for (int i = 0; i < n; ++i) {
-        // allocate memory for n scanlines to be written to outfile.
-        outScanLines[i] = (RGBTRIPLE *)(((void*)(outScanLines + n)) + i * sizeof(RGBTRIPLE) * newbi.biWidth);
-    }
+    RGBTRIPLE *outScanLines = (RGBTRIPLE *)malloc(sizeof(RGBTRIPLE) * newbi.biWidth * n);
 
     // filling bytes for padding, 4 bytes max.
-    const char* filling = "\0\0\0\0";
+    const char *filling = "\0\0\0\0";
 
     // iterate over infile's scanlines
-    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++) {
+    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
+    {
         // read one scanline from infile
         fread(inScanLine, sizeof(RGBTRIPLE), bi.biWidth, inptr);
         // iterate over pixels in inScanline
-        for (int j = 0; j < bi.biWidth; j++) {
+        for (int j = 0; j < bi.biWidth; j++)
+        {
             // fill outScanLines with a 2-level loop.
-            for (int out_i = 0; out_i < n; ++out_i) {
-                for (int out_j = j * n; out_j < j * n + n; ++out_j) {
-                    (outScanLines[out_i])[out_j] = inScanLine[j];
+            for (int out_i = 0; out_i < n; ++out_i)
+            {
+                for (int out_j = j * n; out_j < j * n + n; ++out_j)
+                {
+                    outScanLines[out_i * newbi.biWidth + out_j] = inScanLine[j];
                 }
             }
         }
 
         // write outScanLines to outfile.
-        for (int out_i = 0; out_i < n; ++out_i) {
-            fwrite(outScanLines[out_i], sizeof(RGBTRIPLE), newbi.biWidth, outptr);
-            if (newPadding > 0) {
+        for (int out_i = 0; out_i < n; ++out_i)
+        {
+            fwrite(outScanLines[out_i * newbi.biWidth], sizeof(RGBTRIPLE), newbi.biWidth, outptr);
+            if (newPadding > 0)
+            {
                 fwrite(filling, 1, newPadding, outptr);
             }
         }
