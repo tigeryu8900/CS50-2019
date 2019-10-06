@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
         if (isStartOfImage(block))
         {
             char fname[8];
-            sprintf(fname, "%03d.JPEG", fileCount++);
+            sprintf(fname, "%03d.jpg", fileCount++);
             if (outptr != NULL)
             {
                 fclose(outptr);
