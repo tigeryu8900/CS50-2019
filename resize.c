@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
         for (int j = 0; j < newbi.biWidth; j++)
         {
             // write pixel
-            fwrite(&inPixels[(int)(i / f) * newbi.biWidth + (int)(j / f)], sizeof(RGBTRIPLE), 1, outptr);
+            fwrite(&inPixels[(int)(i / f) * bi.biWidth + (int)(j / f)], sizeof(RGBTRIPLE), 1, outptr);
         }
 
         if (newPadding > 0)
