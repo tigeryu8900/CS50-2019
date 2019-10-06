@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     RGBTRIPLE **outScanLines = (RGBTRIPLE **)malloc((sizeof(RGBTRIPLE*) + sizeof(RGBTRIPLE) * newbi.biWidth) * n);
     for (int i = 0; i < n; ++i) {
         // allocate memory for n scanlines to be written to outfile.
-        outScanLines[i] = (RGBTRIPLE *)(outScanLines + n);
+        outScanLines[i] = (RGBTRIPLE *)(((void*)(outScanLines + n)) + i * sizeof(RGBTRIPLE) * newbi.biWidth);
     }
 
     // filling bytes for padding, 4 bytes max.
