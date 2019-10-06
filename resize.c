@@ -6,6 +6,23 @@
 
 #include "bmp.h"
 
+
+void printFileHeader(BITMAPFILEHEADER* bf)
+{
+    printf("bfType: %x\nbfSize: %x\nbfReserved1: %x\nbfReserved2: %x\nbfOffBits: %x\n",
+           bf->bfType, bf->bfSize, bf->bfReserved1, bf->bfReserved2, bf->bfOffBits);
+}
+
+
+void printInfoHeader(BITMAPINFOHEADER* bi)
+{
+    printf("biSize: %x\nbiWidth: %x\nbiHeight: %x\nbiPlanes: %x\nbiBitCount: %x\n"
+           "biCompression: %x\nbiSizeImage: %x\nbiXPelsPerMeter: %x\nbiYPelsPerMeter: %x\nbiClrUsed: %x\nbiClrImportant: %x\n",
+           bi->biSize, bi->biWidth, bi->biHeight, bi->biPlanes, bi->biBitCount,
+           bi->biCompression, bi->biSizeImage, bi->biXPelsPerMeter, bi->biYPelsPerMeter, bi->biClrUsed, bi->biClrImportant);
+}
+
+
 int main(int argc, char *argv[])
 {
     // ensure proper usage
@@ -51,29 +68,35 @@ int main(int argc, char *argv[])
         return 4;
     }
 
+    // print old headers
+    printFileHeader(&bf);
+    printInfoHeader(&bi);
+
+    BITMAPFILEHEADER newbf = bf;
+    BITMAPINFOHEADER newbi = bi;
+
     // calculate width and height
-    LONG oldWidth = bi.biWidth;
-    LONG oldHeight = bi.biHeight;
-    LONG newWidth = oldWidth * n;
-    LONG newHeight = oldHeight * n;
-
-    bi.biWidth = newWidth;
-    bi.biHeight = newHeight;
-
-    // write outfile's BITMAPFILEHEADER
-    fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
-
-    // write outfile's BITMAPINFOHEADER
-    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
+    newbi.biWidth = bi.biWidth * n;
+    newbi.biHeight = bi.biHeight * n;
 
     // determine padding for scanlines
-    int oldPadding = (4 - (oldWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-    int newPadding = (4 - (newWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int oldPadding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int newPadding = (4 - (newbi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+
+    newbi.biSizeImage = (newbi.biWidth * sizeof(RGBTRIPLE) + newPadding) * abs(newbi.biHeight);
+    newbi.biSize = newbf.bfOffBits + newbi.biSizeImage;
+
+    // write outfile's BITMAPFILEHEADER
+    fwrite(&newbf, sizeof(BITMAPFILEHEADER), 1, outptr);
+
+    // write outfile's BITMAPINFOHEADER
+    fwrite(&newbi, sizeof(BITMAPINFOHEADER), 1, outptr);
+
 
     // one scanline from inFile.
-    RGBTRIPLE *inScanLine = (RGBTRIPLE *)malloc(sizeof(RGBTRIPLE) * oldWidth);
+    RGBTRIPLE *inScanLine = (RGBTRIPLE *)malloc(sizeof(RGBTRIPLE) * bi.biWidth);
     // 2d array, n scanlines to be written to outfile.
-    RGBTRIPLE **outScanLines = (RGBTRIPLE **)malloc((sizeof(RGBTRIPLE*) + sizeof(RGBTRIPLE) * newWidth) * n);
+    RGBTRIPLE **outScanLines = (RGBTRIPLE **)malloc((sizeof(RGBTRIPLE*) + sizeof(RGBTRIPLE) * newbi.biWidth) * n);
     for (int i = 0; i < n; ++i) {
         // allocate memory for n scanlines to be written to outfile.
         outScanLines[i] = (RGBTRIPLE *)(outScanLines + n);
@@ -83,11 +106,11 @@ int main(int argc, char *argv[])
     const char* filling = "\0\0\0\0";
 
     // iterate over infile's scanlines
-    for (int i = 0, biHeight = abs(oldHeight); i < biHeight; i++) {
+    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++) {
         // read one scanline from infile
-        fread(inScanLine, sizeof(RGBTRIPLE), oldWidth, inptr);
+        fread(inScanLine, sizeof(RGBTRIPLE), bi.biWidth, inptr);
         // iterate over pixels in inScanline
-        for (int j = 0; j < oldWidth; j++) {
+        for (int j = 0; j < bi.biWidth; j++) {
             // fill outScanLines with a 2-level loop.
             for (int out_i = 0; out_i < n; ++out_i) {
                 for (int out_j = j * n; out_j < j * n + n; ++out_j) {
@@ -98,7 +121,7 @@ int main(int argc, char *argv[])
 
         // write outScanLines to outfile.
         for (int out_i = 0; out_i < n; ++out_i) {
-            fwrite(outScanLines[out_i], sizeof(RGBTRIPLE), newWidth, outptr);
+            fwrite(outScanLines[out_i], sizeof(RGBTRIPLE), newbi.biWidth, outptr);
             if (newPadding > 0) {
                 fwrite(&filling, 1, newPadding, outptr);
             }
