@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
         // write outScanLines to outfile.
         for (int out_i = 0; out_i < n; ++out_i)
         {
-            fwrite(outScanLines[out_i * newbi.biWidth], sizeof(RGBTRIPLE), newbi.biWidth, outptr);
+            fwrite(&outScanLines[out_i * newbi.biWidth], sizeof(RGBTRIPLE), newbi.biWidth, outptr);
             if (newPadding > 0)
             {
                 fwrite(filling, 1, newPadding, outptr);
