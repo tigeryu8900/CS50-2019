@@ -4,10 +4,12 @@ from cs50 import get_int
 
 from math import floor
 
+
 def invalid():
     """print INVALID and quit"""
     print("INVALID")
     sys.exit()
+
 
 t = ""
 
