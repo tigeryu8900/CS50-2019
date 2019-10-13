@@ -2,6 +2,7 @@ import sys
 
 from cs50 import get_string
 
+
 def badInput():
     sys.exit("Usage: python caesar.py key")
 
@@ -20,11 +21,11 @@ ciphertext = get_string("plaintext:  ")
 
 # encrypt
 for i in range(len(ciphertext)):
-    c = ciphertext[i]
-    if 'A' <= c <= 'Z':
-        ciphertext[i] = (((c - 'A') + key) % ('Z' - 'A' + 1)) + 'A'
-    elif 'a' <= c <= 'z':
-        ciphertext[i] = (((c - 'a') + key) % ('z' - 'a' + 1)) + 'a'
+    c = ord(ciphertext[i])
+    if ord('A') <= c <= ord('Z'):
+        ciphertext[i] = chr((((c - ord('A')) + key) % (ord('Z') - ord('A') + 1)) + ord('A'))
+    elif ord('a') <= c <= ord('z'):
+        ciphertext[i] = chr((((c - ord('a')) + key) % (ord('z') - ord('a') + 1)) + ord('a'))
 
 # display ciphertext
 print("ciphertext:", ciphertext);
