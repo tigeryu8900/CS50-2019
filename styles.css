@@ -1,0 +1,18 @@
+.bd-toc-item {
+  transition-duration: 0.5s;
+}
+
+.bd-toc-item:hover {
+  transition-duration: 0.5s;
+  background-color: rgb(192, 192, 192);
+}
+
+canvas, #sample-iframe {
+  border-width: 1px;
+  width: 600px;
+  height: 600px;
+}
+
+canvas {
+  border-color: black;
+}
