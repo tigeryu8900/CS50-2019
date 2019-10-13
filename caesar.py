@@ -6,6 +6,7 @@ from cs50 import get_string
 def badInput():
     sys.exit("Usage: python caesar.py key")
 
+
 # check key
 if len(sys.argv) != 2:
     badInput()
@@ -28,4 +29,4 @@ for i in range(len(ciphertext)):
         ciphertext[i] = chr((((c - ord('a')) + key) % (ord('z') - ord('a') + 1)) + ord('a'))
 
 # display ciphertext
-print("ciphertext: ".join(ciphertext));
+print("ciphertext:", "".join(ciphertext))
