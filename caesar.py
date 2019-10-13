@@ -17,19 +17,15 @@ if not sys.argv[1].isnumeric():
 key = int(sys.argv[1])
 
 # retrieve plaintext and store in ciphertext
-ciphertext = get_string("plaintext:  ")
+ciphertext = list(get_string("plaintext:  "))
 
 # encrypt
-a = ord(a)
-z = ord(z)
-A = ord(A)
-Z = ord(Z)
 for i in range(len(ciphertext)):
     c = ord(ciphertext[i])
-    if A <= c <= Z:
-        ciphertext[i] = chr((((c - A) + key) % (Z - A + 1)) + A)
-    elif a <= c <= z:
-        ciphertext[i] = chr((((c - a) + key) % (z - a + 1)) + a)
+    if ord('A') <= c <= ord('Z'):
+        ciphertext[i] = chr((((c - ord('A')) + key) % (ord('Z') - ord('A') + 1)) + ord('A'))
+    elif ord('a') <= c <= ord('z'):
+        ciphertext[i] = chr((((c - ord('a')) + key) % (ord('z') - ord('a') + 1)) + ord('a'))
 
 # display ciphertext
-print("ciphertext:", ciphertext);
+print("ciphertext: ".join(ciphertext));
