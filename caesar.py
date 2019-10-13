@@ -20,6 +20,10 @@ key = int(sys.argv[1])
 ciphertext = get_string("plaintext:  ")
 
 # encrypt
+a = ord(a)
+z = ord(z)
+A = ord(A)
+Z = ord(Z)
 for i in range(len(ciphertext)):
     c = ord(ciphertext[i])
     if ord('A') <= c <= ord('Z'):
