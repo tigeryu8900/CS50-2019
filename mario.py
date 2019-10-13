@@ -9,10 +9,4 @@ while height < 1 or height > 8:
 
 # make pyramid
 for i in range(height):
-    indent = ""
-    for j in range(i + 1, height):
-        indent += " "
-    block = ""
-    for j in range(i + 1):
-        block += "#"
-    print(indent + block + "  " + block)
+    print(" " * (height - i - 1) + "#" * (i + 1) + "  " + "#" * (i + 1))
