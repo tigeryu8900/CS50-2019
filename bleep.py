@@ -13,7 +13,9 @@ def main():
     message = get_string("What message would you like to censor?")
 
     for word in dictionary:
-        message.replace(word, "*" * len(word))
+        message = message.replace(word, "*" * len(word))
+
+    print(message)
 
 
 if __name__ == "__main__":
