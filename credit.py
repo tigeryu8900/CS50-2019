@@ -6,7 +6,7 @@ from math import floor
 
 def invalid():
     """print INVALID and quit"""
-    print("INVALID")
+    print("INVALID"+t)
     sys.exit()
 
 t = ""
