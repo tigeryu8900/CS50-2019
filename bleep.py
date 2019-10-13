@@ -14,7 +14,7 @@ def main():
     message = get_string("What message would you like to censor?\n")
 
     for word in dictionary:
-        message = re.sub("\\b" + word + "\\b", "*" * len(word), message, flags = re.IGNORECASE)
+        message = re.sub("\\b" + word + "\\b", "*" * len(word), message, flags=re.IGNORECASE)
 
     print(message)
 
