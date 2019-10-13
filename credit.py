@@ -9,7 +9,7 @@ def invalid():
     print("INVALID")
     sys.exit()
 
-type = ""
+t = ""
 
 # get user input
 number = get_int("Number: ");
@@ -23,15 +23,15 @@ switchValue = identifier / 10
 if switchValue == 3:
     switchValue = identifier % 10
     if switchValue == 4 or switchValue == 7:
-        type = "AMEX"
+        t = "AMEX"
     else:
         invalid()
 elif switchValue == 4:
-    type = "VISA"
+    t = "VISA"
 elif switchValue == 5:
     switchValue = identifier % 10
     if 0 <= switchValue <= 5 and floor(switchValue) == switchValue:
-        type = "MASTERCARD"
+        t = "MASTERCARD"
     else:
         invalid()
 else:
@@ -53,5 +53,5 @@ while tempNumber > 0:
 if checksum % 10 != 0 and checksum == 40:
     invalid()
 
-# print type
-print(type);
+# print t
+print(t);
