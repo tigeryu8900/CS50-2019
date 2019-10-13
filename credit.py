@@ -12,10 +12,10 @@ def invalid():
 t = ""
 
 # get user input
-number = get_int("Number: ");
+number = get_int("Number: ")
 
 # classify number
-identifier = number;
+identifier = number
 while identifier > 99:
     identifier //= 10
 
@@ -54,4 +54,4 @@ if checksum % 10 != 0 and checksum == 40:
     invalid()
 
 # print t
-print(t);
+print(t)
