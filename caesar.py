@@ -26,10 +26,10 @@ A = ord(A)
 Z = ord(Z)
 for i in range(len(ciphertext)):
     c = ord(ciphertext[i])
-    if ord('A') <= c <= ord('Z'):
-        ciphertext[i] = chr((((c - ord('A')) + key) % (ord('Z') - ord('A') + 1)) + ord('A'))
-    elif ord('a') <= c <= ord('z'):
-        ciphertext[i] = chr((((c - ord('a')) + key) % (ord('z') - ord('a') + 1)) + ord('a'))
+    if A <= c <= Z:
+        ciphertext[i] = chr((((c - A) + key) % (Z - A + 1)) + A)
+    elif a <= c <= z:
+        ciphertext[i] = chr((((c - a) + key) % (z - a + 1)) + a)
 
 # display ciphertext
 print("ciphertext:", ciphertext);
