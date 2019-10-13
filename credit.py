@@ -4,12 +4,12 @@ from cs50 import get_int
 
 from math import floor
 
+t = ""
+
 def invalid():
     """print INVALID and quit"""
     print("INVALID"+t)
     sys.exit()
-
-t = ""
 
 # get user input
 number = get_int("Number: ");
