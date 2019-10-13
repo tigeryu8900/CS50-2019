@@ -4,7 +4,7 @@ from cs50 import get_int
 
 # get user input
 height = get_int("Height: ")
-while height < 1 or height > 8:
+while not 0 <= height < 8:
     height = get_int("Height: ")
 
 # make pyramid
