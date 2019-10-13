@@ -1,6 +1,7 @@
 from cs50 import get_string
 from sys import argv
 import sys
+import re
 
 
 def main():
@@ -13,7 +14,7 @@ def main():
     message = get_string("What message would you like to censor?")
 
     for word in dictionary:
-        message = message.replace(word, "*" * len(word))
+        message = re.compile(re.escape(word), re.IGNORECASE).sub(message, "*" * len(word))
 
     print(message)
 
