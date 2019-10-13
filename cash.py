@@ -13,11 +13,11 @@ while (change < 0):
     change = round(100 * get_float("Change owed: "))
 
 # calculate number of coins
-coins = 0;
+coins = 0
 for i in range(NUM_OF_VALUES):
     while change >= values[i]:
         coins += 1
         change -= values[i]
 
 # print the number of coins
-print(coins);
+print(coins)
