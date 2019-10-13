@@ -16,7 +16,7 @@ while (change < 0):
 coins = 0;
 for i in range(NUM_OF_VALUES):
     while change >= values[i]:
-        coins++
+        coins += 1
         change -= values[i]
 
 # print the number of coins
