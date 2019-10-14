@@ -6,13 +6,13 @@ def lines(a, b):
 
     a = a.split('\n')
     b = b.split('\n')
-    result = set()
+    result = []
     for i in range(len(a)):
         for j in range(i, len(b)):
             if a[i] == b[j]:
-                result.add(a[i])
+                result.append(a[i])
 
-    return list(result)
+    return result
 
 
 def sentences(a, b):
@@ -20,21 +20,21 @@ def sentences(a, b):
 
     a = sent_tokenize(a)
     b = sent_tokenize(b)
-    result = set()
+    result = []
     for i in range(len(a)):
         for j in range(i, len(b)):
             if a[i] == b[j]:
-                result.add(a[i])
+                result.append(a[i])
 
-    return list(result)
+    return result
 
 
 def substrings(a, b, n):
     """Return substrings of length n in both a and b"""
 
-    result = set()
+    result = []
     for i in range(len(a) - n):
         if b.find(a[i : i + n]) > -1:
-            result.add(a[i : i + n])
+            result.append(a[i : i + n])
 
-    return list(result)
+    return result
