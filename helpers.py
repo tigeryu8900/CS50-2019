@@ -34,7 +34,7 @@ def substrings(a, b, n):
 
     result = set()
     for i in range(len(a) - n + 1):
-        if b.find(a[i : i + n]) > -1:
-            result.add(a[i : i + n])
+        if b.find(a[i: i + n]) > -1:
+            result.add(a[i: i + n])
 
     return list(result)
