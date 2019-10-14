@@ -8,7 +8,7 @@ def lines(a, b):
     b = b.split('\n')
     result = set()
     for i in range(len(a)):
-        for j in range(i, len(b)):
+        for j in range(i + 1, len(b)):
             if a[i] == b[j]:
                 result.add(a[i])
 
@@ -22,7 +22,7 @@ def sentences(a, b):
     b = sent_tokenize(b)
     result = set()
     for i in range(len(a)):
-        for j in range(i, len(b)):
+        for j in range(i + 1, len(b)):
             if a[i] == b[j]:
                 result.add(a[i])
 
