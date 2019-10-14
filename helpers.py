@@ -10,7 +10,7 @@ def lines(a, b):
     for i in a:
         for j in b:
             if i == j:
-                result.add(a)
+                result.add(i)
 
     return list(result)
 
