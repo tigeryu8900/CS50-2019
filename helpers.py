@@ -9,7 +9,7 @@ def lines(a, b):
     result = set()
     for i in a:
         for j in b:
-            if a == b:
+            if i == j:
                 result.add(a)
 
     return list(result)
