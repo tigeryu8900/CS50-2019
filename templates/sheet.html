@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <!-- http://getbootstrap.com/docs/4.3/content/typography/ -->
+    <h1 class="mb-3">Sheet</h1>
+
+    <!-- http://getbootstrap.com/docs/4.3/components/tables/ -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>House</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+
+        $('tbody').append("{{ data }}"
+        .replace(/(?:&#34;)|(?:&quot;)/g, "\"")
+        .replace(/(?:&#39;)|(?:&apos;)/g, "'")
+        .replace(/^\[/g, "")
+        .replace(/\]$/g, "")
+        .replace(/\[/g, "<tr>\n")
+        .replace(/\]/g, "\n</tr>")
+        .replace(/(?:"(.*?)")|(?:'(.*?)')/g, "\t<td>$1$2</td>")
+        .replace(/,/g, "\n"));
+        $('table').DataTable({'info': false, 'ordering': true, 'paging': false, 'searching': false});
+
+    </script>
+
+{% endblock %}
