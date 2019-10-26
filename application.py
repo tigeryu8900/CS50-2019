@@ -109,13 +109,14 @@ def post_buy():
         pass
     locks[session.get("user_id")] = True
     user = db.execute("SELECT * FROM users WHERE id = :id", id=session.get("user_id"))[0]
-    totalPrice = quote.get("price_float") * shares
+    price = quote.get("price_float")
+    totalPrice = price * shares
     if user.get("cash") < totalPrice:
         locks.pop(session.get("user_id"), None)
         return apology("can't afford")
-    db.execute("UPDATE users SET cash = cash - :price WHERE id = :id", price=totalPrice, id=session.get("user_id"))
+    db.execute("UPDATE users SET cash = cash - :totalPrice WHERE id = :id", totalPrice=totalPrice, id=session.get("user_id"))
     db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (:user_id, :symbol, :shares, :price)",
-               user_id=session.get("user_id"), symbol=quote.get("symbol"), shares=shares, price=totalPrice)
+               user_id=session.get("user_id"), symbol=quote.get("symbol"), shares=shares, price=price)
     locks.pop(session.get("user_id"), None)
     return redirect("/")
 
@@ -357,10 +358,11 @@ def post_sell():
     if totalShares < shares:
         locks.pop(session.get("user_id"), None)
         return apology("can't afford")
-    totalValue = quote.get("price_float") * shares
+    price = quote.get("price_float")
+    totalValue = price * shares
     db.execute("UPDATE users SET cash = :cash WHERE id = :id", cash=user.get("cash") + totalValue, id=session.get("user_id"))
     db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (:user_id, :symbol, :shares, :price)",
-               user_id=session.get("user_id"), symbol=quote.get("symbol"), shares=shares, price=-totalValue)
+               user_id=session.get("user_id"), symbol=quote.get("symbol"), shares=-shares, price=price)
     locks.pop(session.get("user_id"), None)
     flash("Sold!")
     return redirect("/")
