@@ -127,7 +127,6 @@ def check():
     username = request.args.get("username")
     data = username is not None and db.execute("SELECT id from users WHERE username = :username", username=username) == []
     return jsonify(data)
-    #, (400, 200)[data]
 
 
 @app.route("/history")
@@ -285,6 +284,7 @@ def get_quote():
 def post_quote():
     """Get stock quote."""
     symbol = request.form.get("symbol", None)
+    raise symbol
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
