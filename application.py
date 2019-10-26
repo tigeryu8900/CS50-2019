@@ -94,7 +94,9 @@ def get_buy():
 def post_buy():
     """Buy shares of stock"""
     symbol = request.form.get("symbol", "")
-    raise BaseException(f"form: {request.form}")
+    # raise BaseException(f"form: {request.form}")
+    api_key = os.environ.get("API_KEY")
+    raise BaseException(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
