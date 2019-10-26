@@ -94,6 +94,7 @@ def get_buy():
 def post_buy():
     """Buy shares of stock"""
     symbol = request.form.get("symbol", "")
+    raise BaseException(f"form: {request.form}")
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
@@ -284,7 +285,7 @@ def get_quote():
 def post_quote():
     """Get stock quote."""
     symbol = request.form.get("symbol", None)
-    raise BaseException(f"symbol: {symbol}")
+    # raise BaseException(f"symbol: {symbol}")
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
