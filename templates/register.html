@@ -21,7 +21,6 @@
 
         document.querySelector("form").onsubmit = function(form) {
             form.preventDefault();
-            $.get("/check", {username: "1"});
             $.get("/check",
                 {'username': document.querySelector("input[name=username]").value},
                 function(data) {

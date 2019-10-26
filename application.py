@@ -118,8 +118,8 @@ def post_buy():
 @app.route("/check", methods=["GET"])
 def check():
     """Return true if username available, else false, in JSON format"""
-    username = request.args.get("username", "")
-    return jsonify(username is not "" and db.execute(f"SELECT id from users WHERE username = '{username}'") == [])
+    username = request.args.get("username")
+    return jsonify(username is not None and db.execute("SELECT id from users WHERE username = :username", username=username) == [])
 
 
 @app.route("/history")
@@ -127,6 +127,7 @@ def check():
 def history():
     """Show history of transactions"""
     transactions = db.execute("SELECT * FROM transactions WHERE user_id = :id", id=session.get("user_id", ""))
+    for t in transactions: t["price"] = usd(t["price"])
     return render_template("history.html", transactions=transactions)
 
 
@@ -299,14 +300,13 @@ def post_register():
     confirmation = request.form.get("confirmation", None)
     if not (username and password and confirmation and password == confirmation):
         return apology("passwords don't match")
-    # print(f"username: {username} hash: {generate_password_hash(password)}")
     db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)",
                username=username, hash=generate_password_hash(password))
+    print(f"username: {username} hash: {generate_password_hash(password)}")
 
     # Remember which user has logged in
     session["user_id"] = db.execute("SELECT id FROM users WHERE username = :username",
-                          username=username)
-    # print(f"session: {session}")
+                                    username=username)[0].get("id")
 
     # Redirect user to home page
     return redirect("/")
