@@ -62,7 +62,7 @@ def index():
         subtotal = None
         price = None
         if quote:
-            price = quote.get("price_float", False)
+            price = quote.get("price", False)
             subtotal = price * shares
             i = 0
             while portfolio[i][0] != symbol:
@@ -72,7 +72,7 @@ def index():
         else:
             quote = lookup(symbol)
             quote_cache[symbol] = quote
-            price = quote.get("price_float", False)
+            price = quote.get("price", False)
             subtotal = price * shares
             portfolio.append([symbol, quote.get("name"), shares, price, subtotal])
         total += subtotal
@@ -97,7 +97,7 @@ def post_buy():
     # raise BaseException(f"form: {request.form}")
     api_key = os.environ.get("API_KEY")
     # raise BaseException(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
-    raise BaseException(lookup(symbol))
+    # raise BaseException(lookup(symbol))
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
@@ -113,7 +113,7 @@ def post_buy():
         pass
     locks[session.get("user_id")] = True
     user = db.execute("SELECT * FROM users WHERE id = :id", id=session.get("user_id"))[0]
-    price = quote.get("price_float")
+    price = quote.get("price")
     totalPrice = price * shares
     if user.get("cash") < totalPrice:
         locks.pop(session.get("user_id"), None)
@@ -288,14 +288,12 @@ def get_quote():
 def post_quote():
     """Get stock quote."""
     symbol = request.form.get("symbol", None)
-    # raise BaseException(f"symbol: {symbol}")
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
     if not isinstance(quote, dict):
         return apology("invalid symbol")
-    raise BaseException("A share of {name} ({symbol}) costs {price}.".format(**quote))
-    return render_template("quoted.html", quote="A share of {name} ({symbol}) costs {price}.".format(**quote))
+    return render_template("quoted.html", quote="A share of {} ({}) costs {}.".format(quote["name"], quote["symbol"], usd(quote["price"])))
 
 
 @app.route("/register", methods=["GET"])
@@ -363,7 +361,7 @@ def post_sell():
     if totalShares < shares:
         locks.pop(session.get("user_id"), None)
         return apology("can't afford")
-    price = quote.get("price_float")
+    price = quote.get("price")
     totalValue = price * shares
     db.execute("UPDATE users SET cash = :cash WHERE id = :id", cash=user.get("cash") + totalValue, id=session.get("user_id"))
     db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (:user_id, :symbol, :shares, :price)",
