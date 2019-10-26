@@ -96,10 +96,15 @@ def post_buy():
     symbol = request.form.get("symbol", "")
     if not symbol:
         return apology("missing symbol")
-    shares = int(request.form.get("shares", "0"))
     quote = lookup(symbol)
-    if quote == "Unknown symbol":
+    if not isinstance(quote, dict):
         return apology("invalid symbol")
+
+    sharesStr = request.form.get("shares", "")
+    if not (sharesStr.isdigit() and int(sharesStr) > 0):
+        return apology("shares must be a counting number")
+    shares = int(sharesStr)
+
     while locks.get(session.get("user_id"), False):
         pass
     locks[session.get("user_id")] = True
@@ -108,7 +113,7 @@ def post_buy():
     if user.get("cash") < totalPrice:
         locks.pop(session.get("user_id"), None)
         return apology("can't afford")
-    db.execute("UPDATE users SET cash = :cash WHERE id = :id", cash=user.get("cash") - totalPrice, id=session.get("user_id"))
+    db.execute("UPDATE users SET cash = cash - :price WHERE id = :id", price=totalPrice, id=session.get("user_id"))
     db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (:user_id, :symbol, :shares, :price)",
                user_id=session.get("user_id"), symbol=quote.get("symbol"), shares=shares, price=totalPrice)
     locks.pop(session.get("user_id"), None)
@@ -331,10 +336,15 @@ def post_sell():
     symbol = request.form.get("symbol", "")
     if not symbol:
         return apology("missing symbol")
-    shares = int(request.form.get("shares", ""))
     quote = lookup(symbol)
-    if quote == "Unknown symbol":
+    if not isinstance(quote, dict):
         return apology("invalid symbol")
+
+    sharesStr = request.form.get("shares", "")
+    if not (sharesStr.isdigit() and int(sharesStr) > 0):
+        return apology("shares must be a counting number")
+    shares = int(sharesStr)
+
     while locks.get(session.get("user_id"), False):
         pass
     locks[session.get("user_id")] = True
