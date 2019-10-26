@@ -119,7 +119,8 @@ def post_buy():
 def check():
     """Return true if username available, else false, in JSON format"""
     username = request.args.get("username")
-    return jsonify(username is not None and db.execute("SELECT id from users WHERE username = :username", username=username) == [])
+    data = username is not None and db.execute("SELECT id from users WHERE username = :username", username=username) == []
+    return jsonify(data), (400, 200)[data]
 
 
 @app.route("/history")

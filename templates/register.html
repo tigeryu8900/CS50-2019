@@ -24,7 +24,7 @@
             $.get("/check",
                 {'username': document.querySelector("input[name=username]").value},
                 function(data) {
-                    console.log(data);
+                    console.log("callback", data);
                     if (data) {
                         document.querySelector("form").submit();
                     } else {
