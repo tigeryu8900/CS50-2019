@@ -24,6 +24,7 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 # Custom filter
 app.jinja_env.filters["usd"] = usd
 
@@ -43,6 +44,7 @@ if not os.environ.get("API_KEY"):
 
 # Set locks to prevent race conditions
 locks = {}
+
 
 @app.route("/")
 @login_required
@@ -94,10 +96,6 @@ def get_buy():
 def post_buy():
     """Buy shares of stock"""
     symbol = request.form.get("symbol", "")
-    # raise BaseException(f"form: {request.form}")
-    api_key = os.environ.get("API_KEY")
-    # raise BaseException(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
-    # raise BaseException(lookup(symbol))
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
@@ -138,7 +136,8 @@ def check():
 def history():
     """Show history of transactions"""
     transactions = db.execute("SELECT * FROM transactions WHERE user_id = :id", id=session.get("user_id", ""))
-    for t in transactions: t["price"] = usd(t["price"])
+    for transaction in transactions:
+        transaction["price"] = usd(transaction["price"])
     return render_template("history.html", transactions=transactions)
 
 
@@ -207,6 +206,7 @@ def initialize_profile_change_handler():
         locks.pop(session.get("user_id"), None)
         flash(f"Successfully added {value} to CASH!")
         return redirect("/")
+
     def withdraw(form):
         value = form.get("value", 0)
         db.execute("UPDATE users SET cash = cash - :value where id = :id", value=value, id=session.get("user_id"))
@@ -214,6 +214,7 @@ def initialize_profile_change_handler():
                    user_id=session.get("user_id"), value=-value)
         flash(f"Successfully withdrew {value} from CASH!")
         return redirect("/")
+
     def username(form):
         username = request.form.get("username")
         password = request.form.get("password")
@@ -236,6 +237,7 @@ def initialize_profile_change_handler():
         db.execute("UPDATE users SET username = :username where id = :id", username=username, id=session.get("user_id"))
         flash(f"Successfully changed username to {username}!")
         return redirect("/")
+
     def password(form):
         oldPassword = form.get("old-password", None)
         newPassword = form.get("new-password", None)
@@ -250,12 +252,14 @@ def initialize_profile_change_handler():
         db.execute("UPDATE users SET hash = :hash", hash=generate_password_hash(newPassword))
         flash("Successfully changed password!")
         return redirect("/")
+
     def deleteUser(form):
         db.execute("DELETE FROM users WHERE id = :id", id=session.get("user_id"))
         db.execute("DELETE FROM transactions WHERE user_id = :id", id=session.get("user_id"))
         session.clear()
         flash(f"Successfully deleted account!")
         return redirect("/")
+
     return {
         "top-up": topup,
         "withdraw": withdraw,
@@ -263,6 +267,8 @@ def initialize_profile_change_handler():
         "password": password,
         "delete-user": deleteUser
     }
+
+
 profile_change_handler = initialize_profile_change_handler()
 
 
@@ -329,7 +335,8 @@ def post_register():
 @login_required
 def get_sell():
     """Sell shares of stock"""
-    symbols = sorted({symbol["symbol"] for symbol in db.execute("SELECT symbol FROM transactions WHERE user_id = :id", id=session.get("user_id", ""))})
+    symbols = sorted({symbol["symbol"] for symbol in db.execute(
+        "SELECT symbol FROM transactions WHERE user_id = :id", id=session.get("user_id", ""))})
     return render_template("sell.html", symbols=symbols)
 
 
