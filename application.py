@@ -284,7 +284,7 @@ def get_quote():
 def post_quote():
     """Get stock quote."""
     symbol = request.form.get("symbol", None)
-    raise symbol
+    raise BaseException(f"symbol: {symbol}")
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
