@@ -294,6 +294,7 @@ def post_quote():
     quote = lookup(symbol)
     if not isinstance(quote, dict):
         return apology("invalid symbol")
+    raise BaseException("A share of {name} ({symbol}) costs {price}.".format(**quote))
     return render_template("quoted.html", quote="A share of {name} ({symbol}) costs {price}.".format(**quote))
 
 
