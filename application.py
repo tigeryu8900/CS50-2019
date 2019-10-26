@@ -96,7 +96,7 @@ def post_buy():
     symbol = request.form.get("symbol", "")
     if not symbol:
         return apology("missing symbol")
-    shares = int(request.form.get("shares", ""))
+    shares = int(request.form.get("shares", "0"))
     quote = lookup(symbol)
     if quote == "Unknown symbol":
         return apology("invalid symbol")
@@ -282,7 +282,7 @@ def post_quote():
     if not symbol:
         return apology("missing symbol")
     quote = lookup(symbol)
-    if quote == "Unknown symbol":
+    if not isinstance(quote, dict):
         return apology("invalid symbol")
     return render_template("quoted.html", quote="A share of {name} ({symbol}) costs {price}.".format(**quote))
 
