@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <script>
+        mainStyle = document.querySelector("body > main").style;
+        // mainStyle.overflow = "hidden";
+        mainStyle.height = "80%";
+        bodyStyle = document.querySelector("body").style;
+        bodyStyle.overflow = "hidden";
+        bodyStyle.height = "100vh";
+    </script>
+    <div class="row" style="overflow:hidden;height:100%">
+        <div id="scrollby-forms" class="list-group col-4" style="overflow:auto;height:100%">
+            <h1>Settings</h1>
+            <a class="list-group-item list-group-item-action" href="#top-up">Top Up</a>
+            <a class="list-group-item list-group-item-action" href="#withdraw">Withdraw</a>
+            <a class="list-group-item list-group-item-action" href="#username">Change Username</a>
+            <a class="list-group-item list-group-item-action" href="#password">Change Password</a>
+            <a class="list-group-item list-group-item-action" href="#delete">Delete Account</a>
+        </div>
+        <div id="forms" data-spy="scroll" data-target="#scrollby-forms" class="scrollspy-example col-8" style="overflow:auto;height:100%">
+            <h2 id="top-up"><span class="bd-content-title">Top Up</span></h2>
+            <form id="form-top-up" action="/profile" method="post">
+                <input name="type" value="top-up" hidden>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus="" class="form-control" name="value" placeholder="Value" type="text">
+                </div>
+                <button class="btn btn-primary" type="submit">Top Up</button>
+            </form>
+            <p></p>
+            <h2 id="withdraw"><span class="bd-content-title">Withdraw</span></h2>
+            <form id="form-withdraw" action="/profile" method="post">
+                <input name="type" value="withdraw" hidden>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus="" class="form-control" name="value" placeholder="Value" type="text">
+                </div>
+                <button class="btn btn-primary" type="submit">Withdraw</button>
+            </form>
+            <p></p>
+            <h2 id="username"><span class="bd-content-title">Change Username</span></h2>
+            <form id="form-username" action="/profile" method="post">
+                <input name="type" value="username" hidden>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus="" class="form-control" name="password" placeholder="Password" type="password">
+                </div>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus="" class="form-control" name="username" placeholder="New Username" type="text">
+                </div>
+                <button class="btn btn-primary" type="submit">Change Username</button>
+            </form>
+            <script>
+
+                document.querySelector("#form-username").onsubmit = function(form) {
+                    form.preventDefault();
+                    $.get("/check", {username: "1"});
+                    $.get("/check",
+                        {'username': document.querySelector("input[name=username]").value},
+                        function(data) {
+                            console.log(data);
+                            if (data) {
+                                document.querySelector("#form-username").submit();
+                            } else {
+                                alert("Username " + document.querySelector("input[name=username]").value + " is not available");
+                            }
+                        }
+                    );
+                };
+
+            </script>
+            <p></p>
+            <h2 id="password"><span class="bd-content-title">Change Password</span></h2>
+            <form id="form-password" action="/profile" method="post">
+                <input name="type" value="password" hidden>
+                <div class="form-group">
+                    <input class="form-control" name="old-password" placeholder="Old Password" type="password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" name="new-password" placeholder="New Password" type="password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" name="confirmation" placeholder="New Password (again)" type="password">
+                </div>
+                <button class="btn btn-primary" type="submit">Change Password</button>
+            </form>
+            <p></p>
+            <h2 id="delete"><span class="bd-content-title">Delete Account</span></h2>
+            <form id="form-delete" action="/profile" method="post">
+                <input name="type" value="delete-user" hidden>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" name="password" placeholder="Password" type="password">
+                </div>
+                <button class="btn btn-danger" type="submit" data-toggle="tooltip" data-html="true" title="You <em><strong><u>cannot</u></strong></em> undo this!">Delete Account</button>
+            </form>
+            <script>
+
+                $('#form-delete > button').tooltip({ boundary: 'window' });
+                document.querySelector("#form-delete").onsubmit = function(form) {
+                    form.preventDefault();
+                    if (confirm("Are you sure you want to delete your account? This cannot be undone.")) {
+                        document.querySelector("#form-delete").submit();
+                    }
+                };
+
+            </script>
+        </div>
+    </div>
+{% endblock %}
