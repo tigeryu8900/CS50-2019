@@ -120,7 +120,8 @@ def check():
     """Return true if username available, else false, in JSON format"""
     username = request.args.get("username")
     data = username is not None and db.execute("SELECT id from users WHERE username = :username", username=username) == []
-    return jsonify(data), (400, 200)[data]
+    return jsonify(data)
+    #, (400, 200)[data]
 
 
 @app.route("/history")
@@ -301,6 +302,8 @@ def post_register():
     confirmation = request.form.get("confirmation", None)
     if not (username and password and confirmation and password == confirmation):
         return apology("passwords don't match")
+    if len(db.execute("SELECT id from users WHERE username = :username", username=username)) > 0:
+        return apology("username is not available")
     db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)",
                username=username, hash=generate_password_hash(password))
     print(f"username: {username} hash: {generate_password_hash(password)}")
