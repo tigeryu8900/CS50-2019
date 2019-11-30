@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="/static/styles.css" rel="stylesheet" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon"/>
+  </head>
+  <body>
+    <div class="main-box">
+      <form action="proxy_form">
+        <fieldset>
+          <legend class="description">Proxy sites that you can't otherwise visit.</legend>
+          <legend class="description-small">
+              Some people around the world can't visit certain sites because their administrators or
+              governments censor or block certain websites. Some commonly-censored websites include:
+          </legend>
+          <ul class="description-list">
+              <li>www.google.com</li>
+              <li>www.cnn.com</li>
+              <li>www.foxnews.com</li>
+              <!--<li>www.yahoo.com</li>-->
+          </ul>
+        </fieldset>
+        <div class="search-box">
+          <div class="site-wrap">
+            <input name="site" type="text" placeholder="www.google.com" />
+          </div>
+          <div class="btn-wrap">
+            <button class="search-btn" type="submit">Go!</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
