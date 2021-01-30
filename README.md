@@ -3,7 +3,6 @@
 This repository contains my solution to all of CS50-2019's problem sets. Each task is saved in a separate branch.
 
 ## Directories
-- cs50/problems/2019/x
 
 <details open>
   <summary>cs50/problems/2019/x</summary>
