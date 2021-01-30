@@ -3,42 +3,7 @@
 This repository contains my solution to all of CS50-2019's problem sets. Each task is saved in a separate branch.
 
 ## Directories
-- [cs50/problems/2019/x](./tree/cs50/problems/2019/x)
-  - [bleep](./tree/cs50/problems/2019/x/bleep)
-  - [caesar](./tree/cs50/problems/2019/x/caesar)
-  - [cash](./tree/cs50/problems/2019/x/cash)
-  - challenges
-    - [speller](./tree/cs50/problems/2019/x/challenges/speller)
-  - [crack](./tree/cs50/problems/2019/x/crack)
-  - [credit](./tree/cs50/problems/2019/x/credit)
-  - [finance](./tree/cs50/problems/2019/x/finance)
-  - [hello](./tree/cs50/problems/2019/x/hello)
-  - [homepage](./tree/cs50/problems/2019/x/homepage)
-  - mario
-    - [less](./tree/cs50/problems/2019/x/mario/less)
-    - [more](./tree/cs50/problems/2019/x/mario/more)
-  - [project](./tree/cs50/problems/2019/x/project)
-  - [recover](./tree/cs50/problems/2019/x/recover)
-  - resize
-    - [less](./tree/cs50/problems/2019/x/resize/less)
-    - [more](./tree/cs50/problems/2019/x/resize/more)
-  - [scratch](./tree/cs50/problems/2019/x/scratch)
-  - sentimental
-    - [caesar](./tree/cs50/problems/2019/x/sentimental/caesar)
-    - [cash](./tree/cs50/problems/2019/x/sentimental/cash)
-    - [crack](./tree/cs50/problems/2019/x/sentimental/crack)
-    - [credit](./tree/cs50/problems/2019/x/sentimental/credit)
-    - [hello](./tree/cs50/problems/2019/x/sentimental/hello)
-    - [less](./tree/cs50/problems/2019/x/sentimental/mario/less)
-    - [more](./tree/cs50/problems/2019/x/sentimental/mario/more)
-    - [vigenere](./tree/cs50/problems/2019/x/sentimental/vigenere)
-  - [similarities](./tree/cs50/problems/2019/x/similarities)
-  - [speller](./tree/cs50/problems/2019/x/speller)
-  - [survey](./tree/cs50/problems/2019/x/survey)
-  - [vigenere](./tree/cs50/problems/2019/x/vigenere)
-  - [whodunit](./tree/cs50/problems/2019/x/whodunit)
-`.replaceAll("./tree", "../../tree")
-"- [cs50/problems/2019/x](../../tree/cs50/problems/2019/x)
+- [cs50/problems/2019/x](../../tree/cs50/problems/2019/x)
   - [bleep](../../tree/cs50/problems/2019/x/bleep)
   - [caesar](../../tree/cs50/problems/2019/x/caesar)
   - [cash](../../tree/cs50/problems/2019/x/cash)
