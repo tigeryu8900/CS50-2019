@@ -3,7 +3,7 @@
 This repository contains my solution to all of CS50-2019's problem sets. Each task is saved in a separate branch.
 
 ## Directories
-- [cs50/problems/2019/x](../../tree/cs50/problems/2019/x)
+- cs50/problems/2019/x
   - [bleep](../../tree/cs50/problems/2019/x/bleep)
   - [caesar](../../tree/cs50/problems/2019/x/caesar)
   - [cash](../../tree/cs50/problems/2019/x/cash)
